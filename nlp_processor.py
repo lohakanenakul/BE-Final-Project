@@ -15,8 +15,11 @@ class NLPProcessor:
         try:
             self.nlp = spacy.load("en_core_web_sm")
         except OSError:
-            self.logger.error("spaCy English model not found. Please install with: python -m spacy download en_core_web_sm")
-            raise
+            self.logger.warning("spaCy English model not found. Downloading now...")
+            from spacy.cli import download
+            download("en_core_web_sm")
+            self.nlp = spacy.load("en_core_web_sm")
+
         
         # Download required NLTK data
         try:
